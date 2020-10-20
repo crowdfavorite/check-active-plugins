@@ -130,10 +130,12 @@ function cf_cap_render_plugin_settings_page()
 		}
 		
 	}
+	echo $out;
+	if ( empty( $out ) ) {
+		echo '<li><strong>All installed plugins are activated networkly or to individual sites.</strong></li>';
+	}
 	echo '</ul>';
 	
-	if ( empty( $out ) ) {
-		echo '<strong>All installed plugins are activated networkly or to individual sites.</strong>';
-	}
+	
 	
 }
