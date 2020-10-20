@@ -1,2 +1,2 @@
-# check-active-plugins
+# cf-check-active-plugins
 Check plugins status on network sites.
