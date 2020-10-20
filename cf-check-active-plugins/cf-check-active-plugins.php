@@ -70,10 +70,41 @@ function cf_cap_render_plugin_settings_page()
 			if ( ! empty( $plugin_data[ 'Name' ] ) ) {
 				$all_active_plugins[ $plugin_data[ 'Name' ] ] = $plugin_data[ 'Name' ];
 			}
-			
-			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $value );
 			echo '<li> - ' . ( ! empty( $plugin_data[ 'Name' ] ) ? $plugin_data[ 'Name' ] : $value ) . '</li>';
 			
+		}
+		echo '</ul>';
+	}
+	
+	/*
+     * Network Activated Plugins
+     */
+	echo '<br /><hr /><br />';
+	
+	echo '<h3>All sites plugins that are active:</h3>';
+	echo '<ul>';
+	foreach ( $all_active_plugins as $key => $value ) {
+		echo '<li> - ' . $value . '</li>';
+	}
+	echo '</ul>';
+	
+	
+	/*
+     * Network Activated Plugins
+     */
+	echo '<br /><hr /><br />';
+	
+	echo '<h3>ONLY NETWORK ACTIVATED</h3>';
+	
+	$network_plugins = get_site_option( 'active_sitewide_plugins' );
+	if ( ! empty( $network_plugins ) ) {
+		echo '<ul>';
+		foreach ( $network_plugins as $key => $value ) {
+			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $key );
+			if ( ! empty( $plugin_data ) ) {
+				$all_active_plugins[ $plugin_data[ 'Name' ] ] = $plugin_data[ 'Name' ];
+			}
+			echo '<li> - ' . ( ! empty( $plugin_data[ 'Name' ] ) ? $plugin_data[ 'Name' ] : $value ) . '</li>';
 		}
 		echo '</ul>';
 	}
@@ -84,34 +115,25 @@ function cf_cap_render_plugin_settings_page()
      */
 	echo '<br /><hr /><br />';
 	
-	echo '<h3>NETWORK ACTIVATED</h3>';
-	echo '<p style="color:#000; font-weight:bold;">Cannot verify all plugins on local environments using git.</p>';
-	echo '<ul>';
-	foreach ( $all_active_plugins as $key => $value ) {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $value );
-		echo '<li> - ' . ( ! empty( $plugin_data[ 'Name' ] ) ? $plugin_data[ 'Name' ] : $value ) . '</li>';
-	}
-	echo '</ul>';
-	
-	/*
-     * Network Activated Plugins
-     */
-	echo '<br /><hr /><br />';
-	
 	echo '<h3>NETWORK INACTIVE</h3>';
-	echo '<p style="color:#000; font-weight:bold;">Cannot verify all plugins on local environments using git.</p>';
+	
 	
 	$all_plugins = get_plugins();
 	
 	echo '<ul>';
+	$out = '';
 	foreach ( $all_plugins as $plugin ) {
 		$plugin_exists = ( $plugin[ 'Name' ] ? ( $all_active_plugins[ $plugin[ 'Name' ] ] ?? false ) : false );
 		
 		if ( empty( $plugin_exists ) ) {
-			echo '<li> - ' . $plugin[ 'Name' ] . '</li>';
+			$out .= '<li> - ' . $plugin[ 'Name' ] . '</li>';
 		}
 		
 	}
 	echo '</ul>';
+	
+	if ( empty( $out ) ) {
+		echo '<strong>All installed plugins are activated networkly or to individual sites.</strong>';
+	}
 	
 }
