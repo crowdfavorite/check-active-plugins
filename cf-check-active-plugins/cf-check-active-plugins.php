@@ -68,7 +68,8 @@ function cf_cap_render_plugin_settings_page()
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $value );
 			
 			if ( ! empty( $plugin_data[ 'Name' ] ) ) {
-				$all_active_plugins[ $plugin_data[ 'Name' ] ] = $plugin_data[ 'Name' ];
+				$plugin_name                        = html_entity_decode( $plugin_data[ 'Name' ] );
+				$all_active_plugins[ $plugin_name ] = $plugin_name;
 			}
 			echo '<li> - ' . ( ! empty( $plugin_data[ 'Name' ] ) ? $plugin_data[ 'Name' ] : $value ) . '</li>';
 			
@@ -102,7 +103,8 @@ function cf_cap_render_plugin_settings_page()
 		foreach ( $network_plugins as $key => $value ) {
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $key );
 			if ( ! empty( $plugin_data ) ) {
-				$all_active_plugins[ $plugin_data[ 'Name' ] ] = $plugin_data[ 'Name' ];
+				$plugin_name                        = html_entity_decode( $plugin_data[ 'Name' ] );
+				$all_active_plugins[ $plugin_name ] = $plugin_name;
 			}
 			echo '<li> - ' . ( ! empty( $plugin_data[ 'Name' ] ) ? $plugin_data[ 'Name' ] : $value ) . '</li>';
 		}
@@ -116,7 +118,6 @@ function cf_cap_render_plugin_settings_page()
 	echo '<br /><hr /><br />';
 	
 	echo '<h3>NETWORK INACTIVE</h3>';
-	
 	
 	$all_plugins = get_plugins();
 	
@@ -135,7 +136,6 @@ function cf_cap_render_plugin_settings_page()
 		echo '<li><strong>All installed plugins are activated networkly or to individual sites.</strong></li>';
 	}
 	echo '</ul>';
-	
 	
 	
 }
