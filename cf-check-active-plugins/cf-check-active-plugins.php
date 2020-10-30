@@ -25,8 +25,12 @@ add_action( 'admin_menu', 'cf_cap_add_settings_page' );
 
 function cf_cap_render_plugin_settings_page()
 {
-	echo "<h2>See active plugins</h2>";
+	if ( ! is_multisite() ) {
+		echo '<p style="color:red;">This plugin must be used on a multisite.</p>';
+		return;
+	}
 	
+	echo "<h2>See active plugins</h2>";
 	
 	/*
 	 * Iterate Through All Sites
